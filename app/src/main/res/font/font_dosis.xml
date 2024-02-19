@@ -1,0 +1,9 @@
+<font-family xmlns:app="http://schemas.android.com/apk/res-auto">
+    <font app:fontStyle="normal" app:fontWeight="400" app:font="@font/dosis_bold" />
+    <font app:fontStyle="normal" app:fontWeight="400" app:font="@font/dosis_extrabold" />
+    <font app:fontStyle="normal" app:fontWeight="400" app:font="@font/dosis_extralight" />
+    <font app:fontStyle="normal" app:fontWeight="400" app:font="@font/dosis_light" />
+    <font app:fontStyle="normal" app:fontWeight="400" app:font="@font/dosis_medium" />
+    <font app:fontStyle="normal" app:fontWeight="400" app:font="@font/dosis_regular" />
+    <font app:fontStyle="normal" app:fontWeight="400" app:font="@font/dosis_semibold" />
+</font-family>
