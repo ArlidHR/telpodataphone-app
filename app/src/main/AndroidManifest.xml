@@ -18,5 +18,6 @@
         </activity>
         <activity android:name=".ui.splashpay.SplashPayActivity" />
         <activity android:name=".ui.main.MainActivity" />
+        <activity android:name=".ui.main.magneticmodule.MegneticActivity" />
     </application>
 </manifest>

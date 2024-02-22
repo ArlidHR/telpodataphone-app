@@ -1,5 +1,6 @@
 package com.metgroup.telpodataphone_app.ui.main
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -31,6 +32,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import com.metgroup.telpodataphone_app.R
+import com.metgroup.telpodataphone_app.ui.main.magneticmodule.MegneticActivity
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,7 +62,12 @@ class MainActivity : ComponentActivity() {
                                     .fillMaxWidth()
                                     .fillParentMaxHeight(0.25f)
                                     .padding(horizontal = 20.dp, vertical = 7.dp)
-                                    .clickable(interactionSource = interactionSource, indication = rippleIndication) { },
+                                    .clickable(interactionSource = interactionSource, indication = rippleIndication) {
+                                        if (title == "Magnetic Card") {
+                                            val intent = Intent(this@MainActivity, MegneticActivity::class.java)
+                                            startActivity(intent)
+                                        }
+                                    },
                             ) {
                                 Box(
                                     contentAlignment = Alignment.Center,

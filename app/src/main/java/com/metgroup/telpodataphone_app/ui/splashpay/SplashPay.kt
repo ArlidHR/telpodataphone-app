@@ -14,6 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.metgroup.telpodataphone_app.ui.main.MainActivity
 import com.metgroup.telpodataphone_app.R
+import com.metgroup.telpodataphone_app.ui.main.magneticmodule.MegneticActivity
 import kotlinx.coroutines.delay
 
 class SplashPayActivity : ComponentActivity() {
@@ -27,6 +28,7 @@ class SplashPayActivity : ComponentActivity() {
     }
 
     private fun navigateToMain() {
+        //startActivity(Intent(this, MegneticActivity::class.java))
         startActivity(Intent(this, MainActivity::class.java))
         finish()
     }

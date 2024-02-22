@@ -67,4 +67,5 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     implementation("com.google.accompanist:accompanist-insets:0.23.0")
+    implementation(files("libs/telpoLib_v2.14.20231218.aar"))
 }
