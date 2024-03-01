@@ -19,5 +19,8 @@
         <activity android:name=".ui.splashpay.SplashPayActivity" />
         <activity android:name=".ui.main.MainActivity" />
         <activity android:name=".ui.main.magneticmodule.MegneticActivity" />
+        <activity android:name=".ui.main.nfcmodule.NfcActivity" />
+        <activity android:name=".ui.main.iccard.ICCardActivity" />
+        <activity android:name=".ui.main.qrmodule.QrActivity" />
     </application>
 </manifest>

@@ -2,6 +2,8 @@
 
     import android.app.Activity
     import android.os.Bundle
+    import android.os.Handler
+    import android.os.Looper
     import androidx.activity.ComponentActivity
     import androidx.activity.compose.setContent
     import androidx.compose.foundation.background
@@ -15,7 +17,6 @@
     import androidx.compose.foundation.layout.height
     import androidx.compose.foundation.layout.padding
     import androidx.compose.material3.Button
-    import androidx.compose.material3.ButtonDefaults
     import androidx.compose.material3.Text
     import androidx.compose.runtime.SideEffect
     import androidx.compose.runtime.mutableStateOf
@@ -31,13 +32,18 @@
     import androidx.compose.ui.unit.sp
     import com.common.apiutil.CommonException
     import com.common.apiutil.magnetic.MagneticCard
+    import com.metgroup.telpodataphone_app.ui.printmodule.PrintModule
     import kotlinx.coroutines.Dispatchers
     import kotlinx.coroutines.GlobalScope
     import kotlinx.coroutines.launch
 
     class MegneticActivity : ComponentActivity() {
+        private lateinit var printModule: PrintModule
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
+
+            val handler = Handler(Looper.getMainLooper())
+            printModule = PrintModule(this, handler, "", "", "")
 
             setContent {
 
@@ -47,6 +53,9 @@
                 val firstTwoCharacters = remember { mutableStateOf("") }
                 val lastTwoCharacters = remember { mutableStateOf("") }
                 val requiredData = remember { mutableStateOf("") }
+                val handler = Handler(Looper.getMainLooper())
+                //printModule = PrintModule(this, handler)
+
 
                 Box(modifier = Modifier.fillMaxSize()) {
                     val window = LocalContext.current as Activity
@@ -123,6 +132,7 @@
                                             if (tracData != null) {
                                                 for (i in tracData.indices) {
                                                     when (i) {
+
                                                         0 -> {
                                                             val data = tracData[i] ?: ""
                                                             val dataBetween = data.substringBetween('^', '^')
@@ -172,6 +182,25 @@
                         ) {
                             Text(text = "Limpiar Datos")
                         }
+
+                        Spacer(modifier = Modifier.height(25.dp))
+
+                        Button(
+                            onClick = {
+                                if (!printModule.isAlive) {
+                                    val nombre = requiredData.value
+                                    val numeroTarjeta = cardNumber.value
+                                    val fechaExpiracion = " ${lastTwoCharacters.value} / ${firstTwoCharacters.value}"
+                                    printModule = PrintModule(this@MegneticActivity, handler, nombre, numeroTarjeta, fechaExpiracion)
+                                    printModule.start()
+                                }
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(50.dp)
+                        ) {
+                            Text(text = "Impresion de Ticket")
+                        }
                     }
                 }
             }
@@ -191,4 +220,5 @@
             super.onDestroy()
             MagneticCard.close()
         }
+
     }

@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">telpodataphone-app</string>
+    <string name="card_type">Card Type: </string>
+    <string name="type_b">Type B</string>
+    <string name="type_a">Type A</string>
+    <string name="type_c">Type C</string>
+    <string name="atqa_data">ATQA: </string>
+    <string name="atqb_data">ATQB: </string>
+    <string name="pupi_data">PUPI: </string>
+    <string name="sak_data">SAK: </string>
+    <string name="uid_data">UID: </string>
 </resources>

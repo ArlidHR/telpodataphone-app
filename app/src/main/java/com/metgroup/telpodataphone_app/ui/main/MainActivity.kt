@@ -32,7 +32,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import com.metgroup.telpodataphone_app.R
+import com.metgroup.telpodataphone_app.ui.main.iccard.ICCardActivity
 import com.metgroup.telpodataphone_app.ui.main.magneticmodule.MegneticActivity
+import com.metgroup.telpodataphone_app.ui.main.nfcmodule.NfcActivity
+import com.metgroup.telpodataphone_app.ui.main.qrmodule.QrActivity
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,6 +68,18 @@ class MainActivity : ComponentActivity() {
                                     .clickable(interactionSource = interactionSource, indication = rippleIndication) {
                                         if (title == "Magnetic Card") {
                                             val intent = Intent(this@MainActivity, MegneticActivity::class.java)
+                                            startActivity(intent)
+                                        }
+                                        if (title == "NFC") {
+                                            val intent = Intent(this@MainActivity, NfcActivity::class.java)
+                                            startActivity(intent)
+                                        }
+                                        if (title == "IC Card") {
+                                            val intent = Intent(this@MainActivity, ICCardActivity::class.java)
+                                            startActivity(intent)
+                                        }
+                                        if (title == "Lector QR") {
+                                            val intent = Intent(this@MainActivity, QrActivity::class.java)
                                             startActivity(intent)
                                         }
                                     },
