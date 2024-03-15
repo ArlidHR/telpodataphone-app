@@ -16,23 +16,22 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.metgroup.telpodataphone_app.ui.theme.TelpodataphoneappTheme
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.remember
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import com.metgroup.telpodataphone_app.R
-import com.metgroup.telpodataphone_app.ui.main.iccard.ICCardActivity
+import com.metgroup.telpodataphone_app.ui.main.iccard.view.ICCardActivity
 import com.metgroup.telpodataphone_app.ui.main.magneticmodule.MegneticActivity
 import com.metgroup.telpodataphone_app.ui.main.nfcmodule.NfcActivity
 import com.metgroup.telpodataphone_app.ui.main.qrmodule.QrActivity
@@ -42,7 +41,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            TelpodataphoneappTheme {
+
                 val dosisBold = FontFamily(Font(R.font.dosis_bold))
                 val cardTitles = listOf("Magnetic Card", "IC Card", "Lector QR", "NFC")
                 Column(
@@ -91,14 +90,14 @@ class MainActivity : ComponentActivity() {
                                     Text(
                                         text = title,
                                         modifier = Modifier.padding(16.dp),
-                                        style = MaterialTheme.typography.titleLarge.copy(fontFamily = dosisBold)
+                                        style = MaterialTheme.typography.h1.copy(fontFamily = dosisBold)
                                     )
                                 }
                             }
                         }
                     }
                 }
-            }
+
         }
     }
 }

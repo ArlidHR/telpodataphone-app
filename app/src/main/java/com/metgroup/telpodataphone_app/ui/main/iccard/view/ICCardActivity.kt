@@ -1,11 +1,9 @@
-package com.metgroup.telpodataphone_app.ui.main.qrmodule
+package com.metgroup.telpodataphone_app.ui.main.iccard.view
 
 import android.app.Activity
-import android.content.ActivityNotFoundException
-import android.content.Intent
-import androidx.activity.ComponentActivity
 import android.os.Bundle
-import android.widget.Toast
+import android.util.Log
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -19,7 +17,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,13 +28,38 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.metgroup.telpodataphone_app.R
+import com.common.apiutil.reader.SmartCardReader
+import androidx.activity.viewModels
+import androidx.compose.runtime.Composable
+import com.metgroup.telpodataphone_app.ui.main.iccard.viewmodel.ICCardViewModel
+import androidx.compose.runtime.livedata.observeAsState
+import com.metgroup.telpodataphone_app.ui.theme.TelpodataphoneappTheme
 
-val LocalScanResult = compositionLocalOf { mutableStateOf("") }
+class ICCardActivity : ComponentActivity() {
+
+    private var reader: SmartCardReader? = null
+    private val viewModel: ICCardViewModel by viewModels()
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        reader = SmartCardReader(this@ICCardActivity, SmartCardReader.SLOT_ICC)
+
+        setContent {
+
+            val atrString by viewModel.atrString.observeAsState("")
+            TelpodataphoneappTheme {
+                MainInterface(activity = this, viewModel)
+            }
+        }
+    }
+}
 
 @Composable
-fun QrScreen() {
-    val scanResult = LocalScanResult.current
+fun MainInterface(activity: ICCardActivity, viewModel: ICCardViewModel) {
+
+    val atrString by viewModel.atrString.observeAsState("")
 
     Box(modifier = Modifier.fillMaxSize()) {
         val window = LocalContext.current as Activity
@@ -53,7 +77,7 @@ fun QrScreen() {
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = "Lector QR",
+                text = "IC Card",
                 style = TextStyle(
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
@@ -75,72 +99,36 @@ fun QrScreen() {
                     .padding(vertical = 8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(text = "Resultado: ", fontWeight = FontWeight.ExtraBold, fontSize = 18.sp)
-                Text(text = scanResult.value, fontWeight = FontWeight.Medium, fontSize = 17.sp)
+                Text(text = "ATR: ", fontWeight = FontWeight.ExtraBold, fontSize = 18.sp)
+                atrString?.let { Text(text = it, fontWeight = FontWeight.Medium, fontSize = 17.sp) }
             }
 
             Spacer(modifier = Modifier.height(50.dp))
 
             Button(
                 onClick = {
-                    val intent = Intent().apply {
-                        setClassName("com.telpo.tps550.api", "com.telpo.tps550.api.barcode.Capture")
-                    }
-                    try {
-                        window.startActivityForResult(intent, 0x124)
-                    } catch (e: ActivityNotFoundException) {
-                        Toast.makeText(window, window.resources.getString(R.string.app_name), Toast.LENGTH_LONG).show()
-                    }
+                    viewModel.readICCard()
                 },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp)
             ) {
-                Text(text = "Leer QR")
+                Text(text = "Leer IC Card")
             }
 
             Spacer(modifier = Modifier.height(25.dp))
 
             Button(
                 onClick = {
-
+                    viewModel.closeICCard()
                 },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp)
             ) {
-                Text(text = "Cerrar Lector QR")
+                Text(text = "Cerrar IC Card")
             }
 
-        }
-    }
-}
-
-class QrActivity : ComponentActivity() {
-    private val scanResult = mutableStateOf("")
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        setContent {
-            CompositionLocalProvider(LocalScanResult provides scanResult) {
-                QrScreen()
-            }
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 0x124) {
-            if (resultCode == 0) {
-                if (data != null) {
-                    val qrcode = data.getStringExtra("qrCode") ?: ""
-                    scanResult.value = qrcode
-                    //Toast.makeText(this@QrActivity, "Scan result: $qrcode", Toast.LENGTH_LONG).show()
-                }
-            } else {
-                //Toast.makeText(this@QrActivity, "Scan Failed", Toast.LENGTH_LONG).show()
-            }
         }
     }
 }
